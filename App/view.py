@@ -37,7 +37,12 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("2- Reproducciones basadas en el rango de una característica de contenido")
+    print("3- Recomendaciones de canciones para fiestas (Danceability y Energy)")
+    print("4- Recomendaciones de canciones para estudiar (Instrumentalness y Tempo)")
+    print("5- Canciones y artistas únicos por cada género")
+    print("6- Género de música más escuchado segun rango de tiempos")
+
 
 catalog = None
 
@@ -76,7 +81,12 @@ while True:
         #Menor Llave: (datetime.datetime(2014, 1, 1, 5, 56, 11), '7cb1d732774911f119ffb443e5665e6c', '197136967')
         #Mayor Llave: (datetime.datetime(2014, 12, 23, 7, 4, 43), '85bded2c26726c14f4668c4c25968f5c', '445590277')
     elif int(inputs[0]) == 2:
-        pass
+        charact = input("Seleccione una característica de contenido: ")
+        valmax = float(input("Seleccione el limite superior del valor de la característica: "))
+        valmin = float(input("Seleccione el limite inferior del valor de la característica: "))
+        print("Resultados Requerimiento 1: ")
+        answer = controller.instancesPerCharact(catalog, charact, valmax, valmin)
+
 
     else:
         sys.exit(0)

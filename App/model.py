@@ -120,6 +120,22 @@ def orderByTracks(map, instance):
 # Funciones para creacion de datos
 
 # Funciones de consulta
+def instancesPerCharact(catalog, charact, valmax, valmin):
+    valores = om.valueSet(catalog['byDates'])
+    artists = om.newMap(omaptype='BST',comparefunction=compareIds)
+    trackcount = 0
+    artistcount = 0
+    for index in range(0, lt.size(valores)):
+        data = lt.getElement(valores, int(index))
+        if float(data[charact]) >= valmin and float(data[charact]) <= valmax:
+            trackcount += 1
+            if om.contains(artists, data['artist_id']) == False:
+                 om.put(artists, data['artist_id'], data)
+         
+
+    print("Cuenta reproducciones: "+str(trackcount))
+    print("Cuenta artistas: "+str(om.size(artists)))
+    return None
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 def compareDates(date1, date2):

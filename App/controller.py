@@ -126,11 +126,12 @@ def loadSentiments(catalog):
         #print(categ)
         model.addSentiment(catalog, sentiment)
 
-# Funciones para la carga de datos
-
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo
+def instancesPerCharact(catalog, charact, valmax, valmin):
+    return model.instancesPerCharact(catalog, charact, valmax, valmin)
+
 def instancesSize(catalog):
     """
     Numero de instancias de reproducción leidas
