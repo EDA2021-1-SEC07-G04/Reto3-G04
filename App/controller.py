@@ -114,14 +114,14 @@ def loadInstances(catalog):
     referencia al libro que se esta procesando.
     """
     instancefile = cf.data_dir + 'context_content_features-small.csv'
-    input_file = csv.DictReader(open(instancefile, encoding='utf-8'))
+    input_file = csv.DictReader(open('context_content_features-small.csv', encoding='utf-8'))
     for instance in input_file:
         model.addInstance(catalog, instance)
 
 
 def loadSentiments(catalog):
     sentfile = cf.data_dir + 'sentiment_values.csv'
-    input_file = csv.DictReader(open(sentfile, encoding='utf-8'))
+    input_file = csv.DictReader(open('sentiment_values.csv', encoding='utf-8'))
     for sentiment in input_file:
         #print(categ)
         model.addSentiment(catalog, sentiment)
@@ -134,6 +134,9 @@ def instancesPerCharact(catalog, charact, valmax, valmin):
 
 def studyRecomend(catalog, valmaxtemp, valmintemp, valmaxinst, valmininst):
     return model.studyRecomend(catalog, valmaxtemp, valmintemp, valmaxinst, valmininst)
+
+def partyRecommended(catalog,valmaxeng,valmineng,valmaxdan,valmindan):
+    return model.partyRecommend(catalog,valmaxeng,valmineng,valmaxdan,valmindan)
 
 def instancesSize(catalog):
     """

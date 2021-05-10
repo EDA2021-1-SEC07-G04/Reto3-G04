@@ -86,7 +86,20 @@ while True:
         valmin = float(input("Seleccione el limite inferior del valor de la característica: "))
         print("Resultados Requerimiento 1: ")
         answer = controller.instancesPerCharact(catalog, charact, valmax, valmin)
-
+    elif int(inputs[0]) == 3:
+        valmaxeng = float(input("Seleccione el limite superior del valor del Energy: "))
+        valmineng = float(input("Seleccione el limite inferior del valor del Energy: "))
+        valmaxdan = float(input("Seleccione el limite superior del valor del Danceability: "))
+        valmindan = float(input("Seleccione el limite inferior del valor del Danceability: "))
+        print("Resultados Requerimiento 3: ")
+        answer = controller.partyRecommended(catalog, valmaxeng, valmineng, valmaxdan, valmindan)
+        print(answer)
+        
+        
+        
+        
+        
+        
     elif int(inputs[0]) == 4:
         valmaxtemp = float(input("Seleccione el limite superior del valor del Tempo: "))
         valmintemp = float(input("Seleccione el limite inferior del valor del Tempo: "))
