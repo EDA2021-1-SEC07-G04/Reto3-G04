@@ -87,7 +87,14 @@ while True:
         print("Resultados Requerimiento 1: ")
         answer = controller.instancesPerCharact(catalog, charact, valmax, valmin)
 
-
+    elif int(inputs[0]) == 4:
+        valmaxtemp = float(input("Seleccione el limite superior del valor del Tempo: "))
+        valmintemp = float(input("Seleccione el limite inferior del valor del Tempo: "))
+        valmaxinst = float(input("Seleccione el limite superior del valor del Instrumentalness: "))
+        valmininst = float(input("Seleccione el limite inferior del valor del Instrumentalness: "))
+        print("Resultados Requerimiento 3: ")
+        answer = controller.studyRecomend(catalog, valmaxtemp, valmintemp, valmaxinst, valmininst)
+        print(answer)
     else:
         sys.exit(0)
 sys.exit(0)

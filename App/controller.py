@@ -132,6 +132,9 @@ def loadSentiments(catalog):
 def instancesPerCharact(catalog, charact, valmax, valmin):
     return model.instancesPerCharact(catalog, charact, valmax, valmin)
 
+def studyRecomend(catalog, valmaxtemp, valmintemp, valmaxinst, valmininst):
+    return model.studyRecomend(catalog, valmaxtemp, valmintemp, valmaxinst, valmininst)
+
 def instancesSize(catalog):
     """
     Numero de instancias de reproducción leidas

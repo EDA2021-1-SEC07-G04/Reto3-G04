@@ -34,11 +34,8 @@ from DISClib.Algorithms.Sorting import shellsort as sa
 import datetime
 assert cf
 import copy
+import random as rdm
 
-"""
-Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
-los mismos.
-"""
 
 # Construccion de modelos
 def CatalNuevo():
@@ -52,9 +49,6 @@ def CatalNuevo():
 
  return catalog
 
-"""def CategIndex():
- categcatalog=mp.newMap(44,19,maptype="PROBING",loadfactor=0.80,comparefunction=None)
- return categcatalog"""
 
 # Funciones para agregar informacion al catalogo
 
@@ -68,14 +62,6 @@ def addSentiment(catalog, sentiment):
     mp.put(catalog['sentiments'], sentiment['hashtag'], sentiment)
         
 def orderByDates(map, instance):
-    """
-    Se toma la fecha del crimen y se busca si ya existe en el arbol
-    dicha fecha.  Si es asi, se adiciona a su lista de crimenes
-    y se actualiza el indice de tipos de crimenes.
-
-    Si no se encuentra creado un nodo para esa fecha en el arbol
-    se crea y se actualiza el indice de tipos de crimenes
-    """
     occurreddate = instance['created_at']
     instancedate = datetime.datetime.strptime(occurreddate, '%Y-%m-%d %H:%M:%S')
     instance_id = instance["track_id"]
@@ -88,14 +74,6 @@ def orderByDates(map, instance):
     return map
     
 def orderByArtists(map, instance):
-    """
-    Se toma la fecha del crimen y se busca si ya existe en el arbol
-    dicha fecha.  Si es asi, se adiciona a su lista de crimenes
-    y se actualiza el indice de tipos de crimenes.
-
-    Si no se encuentra creado un nodo para esa fecha en el arbol
-    se crea y se actualiza el indice de tipos de crimenes
-    """
     artist = instance["artist_id"]
     entry = om.get(map, artist)
     if entry is None:
@@ -103,14 +81,6 @@ def orderByArtists(map, instance):
     return map
 
 def orderByTracks(map, instance):
-    """
-    Se toma la fecha del crimen y se busca si ya existe en el arbol
-    dicha fecha.  Si es asi, se adiciona a su lista de crimenes
-    y se actualiza el indice de tipos de crimenes.
-
-    Si no se encuentra creado un nodo para esa fecha en el arbol
-    se crea y se actualiza el indice de tipos de crimenes
-    """
     track = instance["track_id"]
     entry = om.get(map, track)
     if entry is None:
@@ -137,6 +107,30 @@ def instancesPerCharact(catalog, charact, valmax, valmin):
     print("Cuenta artistas: "+str(om.size(artists)))
     return None
 
+def studyRecomend(catalog, valmaxtemp, valmintemp, valmaxinst, valmininst):
+    valores = om.valueSet(catalog['byDates'])
+    tracklist = lt.newList('ARRAY_LIST')
+    trackcheck = lt.newList('ARRAY_LIST')
+    generated = 1
+    for index in range(0, lt.size(valores)):
+        data = lt.getElement(valores, int(index))
+        if float(data['instrumentalness']) >= valmininst and float(data['instrumentalness']) <= valmaxinst \
+        and float(data['tempo']) <= valmaxtemp and float(data['tempo']) >= valmintemp and lt.isPresent(trackcheck, data['track_id']) == 0:
+            lt.addLast(trackcheck, data['track_id'])
+            lt.addLast(tracklist, data)
+
+    mensaje = ('Total of unique tracks in events:'+str(lt.size(tracklist)))
+    print(mensaje)
+    repeated = []
+    while generated < 6: 
+        trackindex = int(rdm.randint(0, int(lt.size(tracklist))))
+        if (trackindex in repeated) == False:
+            trackdata = lt.getElement(tracklist, int(trackindex))
+            mensaje += ('\nTrack {0}: {1} with instrumentalness of {2} and tempo of {3}.'.format(str(generated), str(trackdata['track_id']), str(trackdata['instrumentalness']), str(trackdata['tempo'])))
+            generated += 1
+
+    return mensaje
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 def compareDates(date1, date2):
     """
@@ -161,9 +155,6 @@ def compareIds(id1, id2):
         return -1
 # Funciones de ordenamiento
 def instancesSize(catalog):
-    """
-    Número de crimenes
-    """
     return lt.size(catalog['instances'])
 
 
