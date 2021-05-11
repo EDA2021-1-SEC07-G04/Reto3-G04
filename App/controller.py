@@ -97,15 +97,7 @@ def startData(catalog):
     delta_memory = deltaMemory(start_memory, stop_memory)
     return delta_time, delta_memory
     
-    
-    stop_time = getTime()
-    stop_memory = getMemory()
-    # finaliza el proceso para medir memoria
-    tracemalloc.stop()
-    # calculando la diferencia de tiempo y memoria
-    delta_time = stop_time - start_time
-    delta_memory = deltaMemory(start_memory, stop_memory)
-    return delta_time, delta_memory
+
 
 def loadInstances(catalog):
     """
@@ -130,10 +122,64 @@ def loadSentiments(catalog):
 
 # Funciones de consulta sobre el catálogo
 def instancesPerCharact(catalog, charact, valmax, valmin):
-    return model.instancesPerCharact(catalog, charact, valmax, valmin)
+    tracemalloc.start()
+    delta_time = -1.0
+    delta_memory = -1.0
+    # toma de tiempo y memoria al inicio del proceso
+    start_time = getTime()
+    start_memory = getMemory()
+
+    #EJECUCIÓN DE CARGA
+    instances = model.instancesPerCharact(catalog, charact, valmax, valmin)
+    #EJECUCIÓN DE CARGA
+    
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    return instances, delta_time, delta_memory
 
 def studyRecomend(catalog, valmaxtemp, valmintemp, valmaxinst, valmininst):
-    return model.studyRecomend(catalog, valmaxtemp, valmintemp, valmaxinst, valmininst)
+    tracemalloc.start()
+    delta_time = -1.0
+    delta_memory = -1.0
+    # toma de tiempo y memoria al inicio del proceso
+    start_time = getTime()
+    start_memory = getMemory()
+
+    #EJECUCIÓN DE CARGA
+    recommend = model.studyRecomend(catalog, valmaxtemp, valmintemp, valmaxinst, valmininst)
+    #EJECUCIÓN DE CARGA
+    
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    return recommend, delta_time, delta_memory
+
+def genresByTempo(catalog, generos, nombre_genero, valmin, valmax):
+    tracemalloc.start()
+    delta_time = -1.0
+    delta_memory = -1.0
+    # toma de tiempo y memoria al inicio del proceso
+    start_time = getTime()
+    start_memory = getMemory()
+
+    #EJECUCIÓN DE CARGA
+    genres = model.genresByTempo(catalog, generos, nombre_genero, valmin, valmax)
+    #EJECUCIÓN DE CARGA
+    
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    return genres, delta_time, delta_memory
 
 def instancesSize(catalog):
     """

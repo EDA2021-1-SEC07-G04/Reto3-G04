@@ -79,13 +79,16 @@ while True:
         print('Elementos en el arbol: ' + str(controller.treeSize(catalog)))
 
         #Menor Llave: (datetime.datetime(2014, 1, 1, 5, 56, 11), '7cb1d732774911f119ffb443e5665e6c', '197136967')
-        #Mayor Llave: (datetime.datetime(2014, 12, 23, 7, 4, 43), '85bded2c26726c14f4668c4c25968f5c', '445590277')
+        #Mayor Llave: (datetime.datetime(2014, 121 23, 7, 4, 43), '85bded2c26726c14f4668c4c25968f5c', '445590277')
     elif int(inputs[0]) == 2:
         charact = input("Seleccione una característica de contenido: ")
         valmax = float(input("Seleccione el limite superior del valor de la característica: "))
         valmin = float(input("Seleccione el limite inferior del valor de la característica: "))
         print("Resultados Requerimiento 1: ")
         answer = controller.instancesPerCharact(catalog, charact, valmax, valmin)
+        print(answer[0])
+        print("Tiempo [ms]: ", answer[1], "  ||  ",
+              "Memoria [kB]: ", answer[2])
 
     elif int(inputs[0]) == 4:
         valmaxtemp = float(input("Seleccione el limite superior del valor del Tempo: "))
@@ -94,7 +97,27 @@ while True:
         valmininst = float(input("Seleccione el limite inferior del valor del Instrumentalness: "))
         print("Resultados Requerimiento 3: ")
         answer = controller.studyRecomend(catalog, valmaxtemp, valmintemp, valmaxinst, valmininst)
-        print(answer)
+        print(answer[0])
+        print("Tiempo [ms]: ", answer[1], "  ||  ",
+              "Memoria [kB]: ", answer[2])
+
+    elif int(inputs[0]) == 5:
+        generos_input = input("Escriba los géneros que desea buscar (separados por una coma): ")
+        generos = generos_input.split(",")
+        nuevo_genero = input("¿Desea agregar un nuevo género musical? (Si / No): ")
+        if nuevo_genero == "Si":
+            nombre_genero = input("Nombre su nuevo género: ")
+            valmin = float(input("Valor mínimo del Tempo: "))
+            valmax = float(input("Valor máximo del Tempo: "))
+        else:
+            nombre_genero = None
+            valmin = None
+            valmax = None
+        print("Resultados Requerimiento 4: ")
+        answer = controller.genresByTempo(catalog, generos, nombre_genero, valmin, valmax)
+        print(answer[0])
+        print("Tiempo [ms]: ", answer[1], "  ||  ",
+              "Memoria [kB]: ", answer[2])
     else:
         sys.exit(0)
 sys.exit(0)
