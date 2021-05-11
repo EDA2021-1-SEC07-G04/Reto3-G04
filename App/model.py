@@ -46,6 +46,9 @@ def CatalNuevo():
  catalog["sentiments"]=mp.newMap(10,13,maptype="CHAINING",loadfactor=0.60,comparefunction=None)
  catalog['artists']=om.newMap(omaptype='BST',comparefunction=compareIds)
  catalog['tracks']=om.newMap(omaptype='BST',comparefunction=compareIds)
+ catalog['hashtags']=om.newMap(omaptype='BST',comparefunction=compareIds)
+ catalog['byInst']=om.newMap(omaptype='BST',comparefunction=compareIds)
+ catalog['byTemp']=om.newMap(omaptype='BST',comparefunction=compareIds)
 
  return catalog
 
@@ -57,6 +60,8 @@ def addInstance(catalog, instance):
     orderByDates(catalog["byDates"], instance)
     orderByArtists(catalog['artists'], instance)
     orderByTracks(catalog['tracks'], instance)
+    orderByInst(catalog['byInst'], instance)
+    orderByTemp(catalog['byTemp'], instance)
     
 def addSentiment(catalog, sentiment):
     mp.put(catalog['sentiments'], sentiment['hashtag'], sentiment)
@@ -85,6 +90,20 @@ def orderByTracks(map, instance):
     entry = om.get(map, track)
     if entry is None:
         om.put(map, track, instance)
+    return map
+
+def orderByInst(map, instance):
+    inst = instance['instrumentalness']
+    entry = om.get(map, inst)
+    if entry is None:
+        om.put(map, inst, instance)
+    return map
+
+def orderByTemp(map, instance):
+    temp = instance['tempo']
+    entry = om.get(map, temp)
+    if entry is None:
+        om.put(map, temp, instance)
     return map
 
 # Funciones para creacion de datos
@@ -156,8 +175,7 @@ def genresByTempo(catalog, generos, nombre_genero, valmin, valmax):
     mp.put(tempo_generos, "Metal", (100.0, 160.0))
     if nombre_genero != None:
         mp.put(tempo_generos, nombre_genero, (valmin, valmin))
-    for gen in generos:
-        print(gen)
+    
     for gen in generos:
         artists = lt.newList('ARRAY_LIST')
         for index in range(0, lt.size(valores)):
@@ -178,6 +196,10 @@ def genresByTempo(catalog, generos, nombre_genero, valmin, valmax):
             mensaje += "n\Artist {0}: {1}".format(i, (lt.getElement(artists, i)))
 
     return mensaje
+
+def genresByTime(catalog, horamax, horamin):
+
+    return None
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 def compareDates(date1, date2):

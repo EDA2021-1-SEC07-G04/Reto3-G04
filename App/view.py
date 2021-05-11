@@ -109,12 +109,20 @@ while True:
             nombre_genero = input("Nombre su nuevo género: ")
             valmin = float(input("Valor mínimo del Tempo: "))
             valmax = float(input("Valor máximo del Tempo: "))
+            generos.append(nombre_genero)
         else:
             nombre_genero = None
             valmin = None
             valmax = None
         print("Resultados Requerimiento 4: ")
         answer = controller.genresByTempo(catalog, generos, nombre_genero, valmin, valmax)
+        print(answer[0])
+        print("Tiempo [ms]: ", answer[1], "  ||  ",
+              "Memoria [kB]: ", answer[2])
+    elif int(inputs[0]) == 6:
+        horamin = input("Seleccione el limite inferior de la hora: ")
+        horamax = input("Seleccione el limite superior de la hora: ")
+        answer = controller.genresByTime(catalog, horamax, horamin)
         print(answer[0])
         print("Tiempo [ms]: ", answer[1], "  ||  ",
               "Memoria [kB]: ", answer[2])

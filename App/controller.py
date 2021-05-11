@@ -181,6 +181,26 @@ def genresByTempo(catalog, generos, nombre_genero, valmin, valmax):
     delta_memory = deltaMemory(start_memory, stop_memory)
     return genres, delta_time, delta_memory
 
+def genresByTime(catalog, horamax, horamin):
+    tracemalloc.start()
+    delta_time = -1.0
+    delta_memory = -1.0
+    # toma de tiempo y memoria al inicio del proceso
+    start_time = getTime()
+    start_memory = getMemory()
+
+    #EJECUCIÓN DE CARGA
+    genres = model.genresByTime(catalog, horamax, horamin)
+    #EJECUCIÓN DE CARGA
+    
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    return genres, delta_time, delta_memory
+
 def instancesSize(catalog):
     """
     Numero de instancias de reproducción leidas
