@@ -141,6 +141,9 @@ def instancesPerCharact(catalog, charact, valmax, valmin):
     delta_memory = deltaMemory(start_memory, stop_memory)
     return instances, delta_time, delta_memory
 
+def partyRecommended(catalog,valmaxeng,valmineng,valmaxdan,valmindan):
+    return model.partyRecommend(catalog,valmaxeng,valmineng,valmaxdan,valmindan)
+
 def studyRecomend(catalog, valmaxtemp, valmintemp, valmaxinst, valmininst):
     tracemalloc.start()
     delta_time = -1.0

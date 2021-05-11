@@ -126,6 +126,28 @@ def instancesPerCharact(catalog, charact, valmax, valmin):
     mensaje += "\nCuenta artistas: "+str(om.size(artists))
     return mensaje
 
+def partyRecommend(catalog, valmaxEng, valminEng, valmaxDan, valminDan):
+    valores = om.valueSet(catalog['byDates'])
+    tracklist = lt.newList('ARRAY_LIST')
+    trackcheck = lt.newList('ARRAY_LIST')
+    generated = 1
+    for index in range(0, lt.size(valores)):
+        data = lt.getElement(valores, int(index))
+        if float(data['danceability']) >= valminDan and float(data['danceability']) <= valmaxDan \
+        and float(data['energy']) <= valmaxEng and float(data['energy']) >= valminEng and lt.isPresent(trackcheck, data['track_id']) == 0:
+            lt.addLast(trackcheck, data['track_id'])
+            lt.addLast(tracklist, data)
+
+    mensaje = ('Total of unique tracks in events:'+str(lt.size(tracklist)))
+    print(mensaje)
+    repeated = []
+    while generated < 6: 
+        trackindex = int(rdm.randint(0, int(lt.size(tracklist))))
+        if (trackindex in repeated) == False:
+            trackdata = lt.getElement(tracklist, int(trackindex))
+            mensaje += ('\nTrack {0}: {1} with energy of {2} and danceability of {3}.'.format(str(generated), str(trackdata['track_id']), str(trackdata['energy']), str(trackdata['danceability'])))
+            generated += 1
+
 def studyRecomend(catalog, valmaxtemp, valmintemp, valmaxinst, valmininst):
     valores = om.valueSet(catalog['byDates'])
     tracklist = lt.newList('ARRAY_LIST')
